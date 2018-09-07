@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, View, Text } from 'react-native';
 
-export default class Categories extends React.Component {
+export default class Products extends React.Component {
   static navigationOptions = {
     title: 'Home',
   };
@@ -9,14 +9,14 @@ export default class Categories extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
+        <Text>Products list</Text>
         <Button
           title="Go to Details"
           onPress={() => {
             /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate('Details', {
+            this.props.navigation.navigate('ProductDetails', {
               itemId: 86,
-              otherParam: 'anything you want here',
+              otherParam: 'Products Title',
             });
           }}
         />
