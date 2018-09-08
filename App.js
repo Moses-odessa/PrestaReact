@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation'; 
 import Categories from './src/component/categories/Categories';
 import Products from './src/component/products/Products';
-
+import Products from './src/component/product_details/ProductDetails';
 
 
 const RootStack = createStackNavigator(
