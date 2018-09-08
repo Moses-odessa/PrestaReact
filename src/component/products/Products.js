@@ -2,8 +2,10 @@ import React from 'react';
 import { Button, View, Text } from 'react-native';
 
 export default class Products extends React.Component {
-  static navigationOptions = {
-    title: 'Products',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('categoryName', ''),
+    };
   };
 
   render() {
