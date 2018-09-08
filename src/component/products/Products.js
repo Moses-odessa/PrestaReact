@@ -3,7 +3,7 @@ import { Button, View, Text } from 'react-native';
 
 export default class Products extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Products',
   };
 
   render() {

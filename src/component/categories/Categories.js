@@ -3,7 +3,7 @@ import { Button, View, Text } from 'react-native';
 
 export default class Categories extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Categories ',
   };
 
   render() {
