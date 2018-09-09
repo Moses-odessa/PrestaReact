@@ -1,9 +1,11 @@
+import {decode as atob, encode as btoa} from 'base-64'
+
 const BASE_URL = 'http://homey.in.ua/api/'
 const AUTH_KEY = 'CM67C92UKYFPE2U7837YH4HGDBV78FBH'
 
-export const getCategoriesByParentId = (id_parent) => {
-    var url = BASE_URL + 'categories/?output_format=JSON&display=[id,name,id_parent]&filter[id_parent]=[' + id_parent + ']';
-    fetch(url,
+export function getCategoriesByParentId (id_parent, callback) {
+    let url = BASE_URL + 'categories/?output_format=JSON&display=[id,name,id_parent]&filter[id_parent]=[' + id_parent + ']';
+     return fetch(url,
       { 
         method: 'get', 
         headers: new Headers({
@@ -12,10 +14,18 @@ export const getCategoriesByParentId = (id_parent) => {
         }), 
         body: ''
       })
-      .then( response => response.json() )
-      .then( jsonData => {
-        console.log(jsonData);
-        this.setState({isLoading: false});
+      .then( response => {
+        return response.json()
       })
-	.catch( error => console.log('Fetch error ' + error) );
+      .then( jsonData => { 
+        console.log(jsonData)
+        console.log(jsonData.length)
+        if(jsonData.length!=0){     
+          callback(jsonData.categories)
+        }else{
+          callback([])
+        }
+      })
+  .catch( error => console.log('Fetch error ' + error) );
+  
   }
