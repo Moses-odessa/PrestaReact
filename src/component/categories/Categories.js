@@ -2,14 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import {UIActivityIndicator} from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { getCategoriesByParentId } from './../../utils/PrestaService'
+import { getCategories } from './../../utils/PrestaService'
 
 export default class Categories extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('categoryName', ''),
-    };
-  }; 
+  static navigationOptions = {    
+      title: 'Выберите категорию'    
+  }
 
   constructor(props) {
     super(props);
@@ -17,14 +15,13 @@ export default class Categories extends React.Component {
       categories: [],
       children: {},
       collapsed: {},
-      isLoading: true
+      loadingCategories: true
     };         
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
-    const rootCategoryId = navigation.getParam('rootCategoryId', 1);
-    getCategoriesByParentId ((jsonData=>{
+    const rootCategoryId = 2;
+    getCategories ((jsonData=>{
         let categories = []
         let children = {}
         for(let i = 0; i < jsonData.length; i++){
@@ -34,7 +31,7 @@ export default class Categories extends React.Component {
           !!node.id_parent && children[node.id_parent].push(node);
         }
         this.setState({
-          isLoading: false,
+          loadingCategories: false,
           categories: categories,
           children: children
         })      
@@ -42,8 +39,8 @@ export default class Categories extends React.Component {
   }
 
   render() {    
-    var {isLoading} = this.state
-    if(isLoading)
+    var {loadingCategories} = this.state
+    if(loadingCategories)
       return this.renderLoadingMessage()
     else
       return this.renderResults()
@@ -58,12 +55,10 @@ export default class Categories extends React.Component {
   }
 
   renderResults() {   
-    let {categories, isLoading} = this.state
-    if (!isLoading){      
-      return (
-        <ScrollView>{this._getNode(0, categories)}</ScrollView>                
-      )
-    }
+    let {categories} = this.state          
+    return (
+      <ScrollView>{this._getNode(0, categories)}</ScrollView>                
+    )    
   }
 
   _getNode(level, root) {
@@ -134,10 +129,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#333',
     fontSize: 18,
-  },
-  loadingIndicator: {
-    color: '#f00',
-  },
+  },  
   loadingContainer: {
       flex: 1,
       paddingTop: 22,

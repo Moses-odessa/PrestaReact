@@ -1,5 +1,8 @@
 import React from 'react';
-import { Button, View, Text } from 'react-native';
+import { FlatList, View, StyleSheet, } from 'react-native';
+import {UIActivityIndicator} from 'react-native-indicators';
+import { getProductsByCategoryId } from './../../utils/PrestaService'
+import ProductItem from '../products/ProductItem'
 
 export default class Products extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -8,21 +11,64 @@ export default class Products extends React.Component {
     };
   };
 
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Products list</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => {
-            /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate('ProductDetails', {
-              itemId: 86,
-              otherParam: 'Products Title',
-            });
-          }}
-        />
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],      
+      loadingProducts: true
+    };         
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const categoryId = navigation.getParam('categoryId', 1);
+    getProductsByCategoryId (categoryId, (jsonData=>{
+        let products = jsonData       
+        this.setState({
+          loadingProducts: false,
+          products: products
+        })      
+    }))
+  }
+
+  render() {    
+    const {loadingProducts} = this.state
+    if(loadingProducts)
+      return this.renderLoadingMessage()
+    else
+      return this.renderResults()
+  }
+
+  renderLoadingMessage() {
+    return (      
+      <View style={styles.loadingContainer}>
+        <UIActivityIndicator color={'#f00'} size={60} />        
       </View>
-    );
+    )
+  }
+
+  renderResults() {   
+    let {products} = this.state   
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={products}          
+          renderItem={({item}) => <ProductItem item={item} navigation={this.props.navigation}/>}
+          keyExtractor={item => '' + item.id}
+        />
+      </View>                
+    )    
   }
 }
+  
+const styles = StyleSheet.create({
+  container: {
+   flex: 1,
+   paddingTop: 22
+  },  
+  loadingContainer: {
+      flex: 1,
+      paddingTop: 22,
+      flexDirection: 'row',
+  }
+})

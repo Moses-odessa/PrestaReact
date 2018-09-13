@@ -4,14 +4,14 @@ import { Button, View, Text } from 'react-native';
 export default class ProductDetails extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+      title: navigation.getParam('productName', 'Информация о товаре'),
     };
   };
 
   render() {
     /* 2. Get the param, provide a fallback value if not available */
     const { navigation } = this.props;
-    const itemId = navigation.getParam('itemId', 'NO-ID');
+    const itemId = navigation.getParam('productId', 'NO-ID');
     const otherParam = navigation.getParam('otherParam', 'some default value');
 
     return (
