@@ -41,12 +41,13 @@ export default class ProductsItem extends React.Component {
 const styles = StyleSheet.create({
     item: {
       flex: 1,  
-      padding: 1,
+      padding: 5,
       height: 100,
       flexDirection: 'row',
     },
     textContainer: {
         flex: 3,
+        padding: 2,
         flexDirection: 'column'
     },
     images: {

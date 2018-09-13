@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, StyleSheet, } from 'react-native';
+import { Text, FlatList, View, StyleSheet, } from 'react-native';
 import {UIActivityIndicator} from 'react-native-indicators';
 import { getProductsByCategoryId } from './../../utils/PrestaService'
 import ProductItem from '../products/ProductItem'
@@ -32,9 +32,11 @@ export default class Products extends React.Component {
   }
 
   render() {    
-    const {loadingProducts} = this.state
+    const {loadingProducts, products} = this.state
     if(loadingProducts)
       return this.renderLoadingMessage()
+    else if(products.length==0)
+      return this.renderEmptyCategory()
     else
       return this.renderResults()
   }
@@ -43,6 +45,14 @@ export default class Products extends React.Component {
     return (      
       <View style={styles.loadingContainer}>
         <UIActivityIndicator color={'#f00'} size={60} />        
+      </View>
+    )
+  }
+
+  renderEmptyCategory() {
+    return (      
+      <View style={styles.loadingContainer}>
+        <Text style={styles.titleText}>ПУСТО</Text>
       </View>
     )
   }
@@ -64,11 +74,19 @@ export default class Products extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   paddingTop: 22,
+   justifyContent: 'center',
+   alignItems: 'stretch'
   },  
+  titleText: {
+    color: '#333',
+    fontSize: 18,
+  },
   loadingContainer: {
       flex: 1,
       paddingTop: 22,
       flexDirection: 'row',
+      justifyContent: 'center',
+   alignItems: 'stretch'
   }
 })
