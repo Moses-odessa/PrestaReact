@@ -72,7 +72,7 @@ export default class Categories extends React.Component {
 
     let allNodes = root.map((node, index) => {
       return (
-        <View style={{paddingLeft: level*10}} >            
+        <View key = {index} style={{paddingLeft: level*10}} >            
           {this._getNodeView(node)}           
           {
             (!!collapsed[node.id] && !!children[node.id] && children[node.id].length > 0) ?
@@ -89,7 +89,7 @@ _getNodeView(node) {
   const {collapsed} = this.state
   const icon = collapsed[node.id] ? 'chevron-right' : 'keyboard-arrow-down'
   return (
-      <View key={node.id} style={styles.item}>
+      <View style={styles.item}>
           <Icon style={styles.icon} name={icon} onPress={() => this._toggleState.bind(this)(node.id)}/>
           
            <Text style={styles.titleText} onPress={() => {
