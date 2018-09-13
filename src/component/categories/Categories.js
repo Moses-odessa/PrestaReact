@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import {UIActivityIndicator} from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { getCategories } from './../../utils/PrestaService'
@@ -86,15 +86,16 @@ _getNodeView(node) {
   return (
       <View style={styles.item}>
           <Icon style={styles.icon} name={icon} onPress={() => this._toggleState.bind(this)(node.id)}/>
-          
-           <Text style={styles.titleText} onPress={() => {
+          <TouchableOpacity onPress={() => {
               this.props.navigation.navigate('Products', {
                  categoryId: node.id,
                  categoryName: node.name[0].value,
               });
-            }}> 
+            }}>
+           <Text style={styles.titleText} > 
             {node.name[0].value} 
-          </Text>
+           </Text>
+          </TouchableOpacity>
       </View>
   )
 }
