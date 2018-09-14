@@ -32,11 +32,7 @@ const DetailsStack = createBottomTabNavigator(
       activeTintColor: 'tomato',
       inactiveTintColor: 'gray',
     },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
+  }  
 );
 
 const RootStack = createStackNavigator(

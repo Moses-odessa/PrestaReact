@@ -53,6 +53,31 @@ export function getProductsByCategoryId (categoryId, callback) {
     .catch( error => console.log('Fetch error ' + error) );
 }
 
+export function getProductById (productId, callback) {
+  const url = BASE_URL +
+   'products/' + productId + '/?output_format=JSON';
+   return fetch(url,
+    { 
+      method: 'get', 
+      headers: new Headers({
+        'Authorization': 'Basic ' + btoa(AUTH_KEY + ':'), 
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }), 
+      body: ''
+    })
+    .then( response => {
+      return response.json()
+    })
+    .then( jsonData => { 
+      if(jsonData.length!=0){     
+        callback(jsonData.product)
+      }else{
+        callback([])
+      }
+    })
+    .catch( error => console.log('Fetch error ' + error) );
+}
+
 export function getImageURL (productId, imageId, imageType) {  
   return (BASE_URL + "images/products/" + productId + "/" + imageId + "/" + imageType)
 }

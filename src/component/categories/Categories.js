@@ -39,7 +39,7 @@ export default class Categories extends React.Component {
   }
 
   render() {    
-    var {loadingCategories} = this.state
+    const {loadingCategories} = this.state
     if(loadingCategories)
       return this.renderLoadingMessage()
     else
@@ -55,7 +55,7 @@ export default class Categories extends React.Component {
   }
 
   renderResults() {   
-    let {categories} = this.state          
+    const {categories} = this.state          
     return (
       <ScrollView>{this._getNode(0, categories)}</ScrollView>                
     )    
