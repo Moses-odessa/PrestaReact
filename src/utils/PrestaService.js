@@ -81,3 +81,8 @@ export function getProductById (productId, callback) {
 export function getImageURL (productId, imageId, imageType) {  
   return (BASE_URL + "images/products/" + productId + "/" + imageId + "/" + imageType)
 }
+
+export function getImageURLWithAuth (productId, imageId, imageType) {  
+  console.log(BASE_URL.slice(0,7) + AUTH_KEY + '@' + BASE_URL.slice(7) + "images/products/" + productId + "/" + imageId + "/" + imageType)
+  return (BASE_URL.slice(0,7) + AUTH_KEY + '@' + BASE_URL.slice(7) + "images/products/" + productId + "/" + imageId + "/" + imageType)
+}

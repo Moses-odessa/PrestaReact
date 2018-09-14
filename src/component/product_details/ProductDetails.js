@@ -53,7 +53,7 @@ export default class ProductDetails extends React.Component {
       <View style={styles.container}>
         <Text style={styles.titleText}>{productDetails.name[0].value}</Text> 
         <Text style={styles.priceText}>{parseInt(productDetails.price)}</Text>
-        <Button title='В корзину' onPress={null}/>
+        <Button title='В корзину' onPress={()=>{alert('OK')}}/>
         <Description html={productDetails.description[0].value}/>      
       </View>
       </ScrollView>
