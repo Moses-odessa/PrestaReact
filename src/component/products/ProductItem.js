@@ -7,7 +7,7 @@ export default class ProductsItem extends React.Component {
         const { item, navigation } = this.props;
         return (
           <TouchableOpacity onPress={() => {
-            navigation.navigate('ProductDetails', {
+            navigation.navigate('DetailsStack', {
               productId: item.id,
               productName: item.name[0].value,
             });

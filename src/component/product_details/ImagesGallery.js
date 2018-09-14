@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import HTMLView from 'react-native-htmlview';
 
-export default class ProductDetails extends React.Component {
+export default class ImagesGallery extends React.Component {
   static navigationOptions = {    
-    title: 'Описание'    
+    title: 'Изображения'    
   }
 
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Product Details</Text>        
+        <Text>ImagesGallery</Text>        
       </View>
     );
   }
