@@ -30,6 +30,8 @@ export default class ImagesGallery extends React.Component {
             'Content-Type': 'data:image/jpg'
         }
       item.source.method = 'get'
+      item.width = 800
+      item.height = 800
       //console.log(item) 
       images.push(item)
     }
@@ -68,8 +70,7 @@ export default class ImagesGallery extends React.Component {
 
   renderResults() {
     const {productDetails} = this.state
-    const ids = productDetails.associations.images 
-    
+    const ids = productDetails.associations.images     
     return (
       <View style={styles.container}>      
         <ImageCarousel zoomEnable={true}
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
    padding: 10,
    justifyContent: 'center',
    alignItems: 'center',
+   flexDirection: 'column',
   },  
   image: {
     marginRight: 2,
