@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
 export default class Description extends React.Component {

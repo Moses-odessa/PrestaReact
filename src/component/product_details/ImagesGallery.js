@@ -1,52 +1,29 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import ImageCarousel from 'react-native-image-carousel';
-import {UIActivityIndicator} from 'react-native-indicators';
-import { getImageURL, AUTHORIZATION, getProductById, getImageURLWithAuth } from './../../utils/PrestaService'
+import { UIActivityIndicator } from 'react-native-indicators';
+import { getProductImages } from './../../utils/PrestaService'
 
 export default class ImagesGallery extends React.Component {
   static navigationOptions = {    
     title: 'Изображения'    
   }
-  images = []
 
   constructor(props) {
     super(props);
     this.state = {
-      productDetails: {},      
+      images: [],      
       loadingProductDetail: true
     };         
   }
-
-  loadUrl(productDetails) {
-    let images = []
-    for(let i = 0; i < productDetails.associations.images.length; i++){
-      let item = {}
-      item.id = '' + productDetails.associations.images[i].id
-      item.source = {}
-      item.source.uri = getImageURL(productDetails.id, productDetails.associations.images[i].id, 'large_default')
-      item.source.headers = {
-            'Authorization': AUTHORIZATION, 
-            'Content-Type': 'data:image/jpg'
-        }
-      item.source.method = 'get'
-      item.width = 800
-      item.height = 800
-      //console.log(item) 
-      images.push(item)
-    }
-    return images
-  }
-
+  
   componentDidMount() {
     const { navigation } = this.props;
     const productId = navigation.getParam('productId', 1);
-    getProductById (productId, (jsonData=>{
-        let productDetails = jsonData 
-        this.images = this.loadUrl(productDetails)    
+    getProductImages (productId, (jsonData=>{   
         this.setState({
           loadingProductDetail: false,
-          productDetails: productDetails
+          images: jsonData
         })   
 
     }))
@@ -69,29 +46,19 @@ export default class ImagesGallery extends React.Component {
   }
 
   renderResults() {
-    const {productDetails} = this.state
-    const ids = productDetails.associations.images     
+    const {images} = this.state     
     return (
       <View style={styles.container}>      
         <ImageCarousel zoomEnable={true}
         renderContent={(id)=>(
           <Image style={StyleSheet.absoluteFill} resizeMode='contain'
-              source={this.images[id].source}
+              source={images[id].large_source}
             />
         )}
         >
-        {ids.map ( (image) => (
+        {images.map ( (image) => (
         <Image key={image.id} style={styles.image}
-              source={
-                { 
-                uri: getImageURL(productDetails.id, image.id, 'medium_default'),
-                headers: {
-                    'Authorization': AUTHORIZATION, 
-                    'Content-Type': 'data:image/jpg'
-                },
-                method: 'get'
-                }
-              }
+              source={image.preview_source}
             />
             ))}
         

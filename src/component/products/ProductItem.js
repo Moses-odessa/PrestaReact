@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { getImageURL, AUTHORIZATION } from './../../utils/PrestaService'
 
 export default class ProductsItem extends React.Component {
     render() {
@@ -9,26 +8,17 @@ export default class ProductsItem extends React.Component {
           <TouchableOpacity onPress={() => {
             navigation.navigate('DetailsStack', {
               productId: item.id,
-              productName: item.name[0].value,
+              productName: item.name,
             });
           }}>
           <View style={styles.item}>          
             <Image style={styles.images}
-              source={
-                { 
-                uri: getImageURL(item.id, item.id_default_image, 'cart_default'),
-                headers: {
-                    'Authorization': AUTHORIZATION, 
-                    'Content-Type': 'data:image/jpg'
-                },
-                method: 'get'
-                }
-              }
+              source={item.image_source}
             />
             <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{item.name[0].value}</Text>
+                <Text style={styles.titleText}>{item.name}</Text>
                 <Text style={styles.descriptionText}>
-                    {item.description_short[0].value.replace(/<(.|\n)*?>/g, '')}
+                    {item.description_short.replace(/<(.|\n)*?>/g, '')}
                 </Text>
             </View>  
             <Text style={styles.priceText}>{parseInt(item.price)}</Text>

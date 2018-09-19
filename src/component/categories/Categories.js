@@ -89,11 +89,11 @@ _getNodeView(node) {
           <TouchableOpacity onPress={() => {
               this.props.navigation.navigate('Products', {
                  categoryId: node.id,
-                 categoryName: node.name[0].value,
+                 categoryName: node.name,
               });
             }}>
            <Text style={styles.titleText} > 
-            {node.name[0].value} 
+            {node.name} 
            </Text>
           </TouchableOpacity>
       </View>
