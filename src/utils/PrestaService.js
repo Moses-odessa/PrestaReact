@@ -127,3 +127,75 @@ export function getProductImages (productId, callback) {
     .catch( error => console.log('Fetch error ' + error) );
 }
 
+export function getProductFeatures (productId, callback) {
+  const url = BASE_URL +
+   'products?output_format=JSON&display=[product_features[id,id_feature_value]]&filter[id]=[' + productId + ']';
+   return fetch(url,
+    { 
+      method: 'get', 
+      headers: getHeaders('application/x-www-form-urlencoded'), 
+      body: ''
+    })
+    .then( response => {
+      return response.json()
+    })
+    .then( async jsonData => { 
+      if(jsonData.length!=0){ 
+        let features = jsonData.products[0].associations.product_features
+        let result = {}
+        for(let i = 0; i < features.length; i++){
+          //console.log(features[i])
+          const name = await getFeatureName(features[i].id)
+          const value = await getFeatureValues(features[i].id_feature_value)
+          !result[name] && (result[name] = [])
+          result[name].push(value)
+        }  
+        callback(result)
+      }else{
+        callback([])
+      }
+    })
+    .catch( error => console.log('Fetch error ' + error) );
+}
+
+function getFeatureName (featureId) {
+  let url = BASE_URL +
+  'product_features/' + featureId + '?output_format=JSON';
+  return fetch(url,
+   { 
+     method: 'get', 
+     headers: getHeaders('application/x-www-form-urlencoded'), 
+     body: ''
+   })
+   .then( response => {
+     return response.json()
+   })
+   .then( jsonData => {     
+       return jsonData.product_feature.name    
+   })
+.catch( error => {
+  console.log('Fetch error ' + error) 
+  return ''
+});
+}
+
+function getFeatureValues (valuesId) {
+  let url = BASE_URL +
+  'product_feature_values/' + valuesId + '?output_format=JSON';
+  return fetch(url,
+   { 
+     method: 'get', 
+     headers: getHeaders('application/x-www-form-urlencoded'), 
+     body: ''
+   })
+   .then( response => {
+     return response.json()
+   })
+   .then( jsonData => {     
+       return jsonData.product_feature_value.value 
+   })
+.catch( error => {
+  console.log('Fetch error ' + error) 
+  return ''
+});
+}

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#aaf',
         borderRadius:10,
-        borderWidth: 1,
+        borderWidth: 0,
     },
     h1: {
       color: '#333',
