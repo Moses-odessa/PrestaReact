@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import ImageCarousel from 'react-native-image-carousel';
+import ImageZoom from 'react-native-image-pan-zoom';
 import { UIActivityIndicator } from 'react-native-indicators';
-import { getProductImages } from './../../utils/PrestaService'
+import { getProductImages } from '../../utils/PrestaService'
 
 export default class ImagesGallery extends React.Component {
   static navigationOptions = {    
@@ -51,9 +52,14 @@ export default class ImagesGallery extends React.Component {
       <View style={styles.container}>      
         <ImageCarousel zoomEnable={true}
         renderContent={(id)=>(
-          <Image style={StyleSheet.absoluteFill} resizeMode='contain'
+          <ImageZoom cropWidth={Dimensions.get('window').width}
+                       cropHeight={Dimensions.get('window').height}
+                       imageWidth={200}
+                       imageHeight={200}>
+            <Image style={StyleSheet.absoluteFill} resizeMode='contain'
               source={images[id].large_source}
             />
+          </ImageZoom>  
         )}
         >
         {images.map ( (image) => (
