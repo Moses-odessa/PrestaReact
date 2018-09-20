@@ -27,14 +27,13 @@ export function getCategories (callback) {
       .then( response => {
         return response.json()
       })
-      .then( jsonData => { 
-        if(jsonData.length!=0){     
-          callback(jsonData.categories)
-        }else{
-          callback([])
-        }
+      .then( jsonData => {     
+          callback(jsonData.categories)        
       })
-  .catch( error => console.log('Fetch error ' + error) );  
+  .catch( error => {
+    console.log('Fetch error ' + error) 
+    callback([])
+  })  
 }
 
 export function getProductsByCategoryId (categoryId, callback) {
@@ -50,7 +49,6 @@ export function getProductsByCategoryId (categoryId, callback) {
       return response.json()
     })
     .then( jsonData => { 
-      if(jsonData.length!=0){
         let products = jsonData.products
         for(let i = 0; i < products.length;i++) {
           products[i].image_source = 
@@ -60,17 +58,17 @@ export function getProductsByCategoryId (categoryId, callback) {
               method: 'get'
             }     
         }  
-        callback(products)
-      }else{
-        callback([])
-      }
+        callback(products)      
     })
-    .catch( error => console.log('Fetch error ' + error) );
+    .catch( error => {
+      console.log('Fetch error ' + error) 
+      callback([])
+    })
 }
 
 export function getProductDescription (productId, callback) {
   const url = BASE_URL +
-   'products?output_format=JSON&display=[id,name,price,description]&filter[id]=[' + productId + ']';
+   'products?output_format=JSON&display=[id,name,price,description,description_short]&filter[id]=[' + productId + ']';
    return fetch(url,
     { 
       method: 'get', 
@@ -80,14 +78,13 @@ export function getProductDescription (productId, callback) {
     .then( response => {
       return response.json()
     })
-    .then( jsonData => { 
-      if(jsonData.length!=0){     
-        callback(jsonData.products[0])
-      }else{
-        callback([])
-      }
+    .then( jsonData => {           
+        callback(jsonData.products[0])      
     })
-    .catch( error => console.log('Fetch error ' + error) );
+    .catch( error => {
+      console.log('Fetch error ' + error) 
+      callback([])
+    })
 }
 
 export function getProductImages (productId, callback) {
@@ -102,8 +99,7 @@ export function getProductImages (productId, callback) {
     .then( response => {
       return response.json()
     })
-    .then( jsonData => { 
-      if(jsonData.length!=0){   
+    .then( jsonData => {        
         let imagesURL = []
         let imagesId = jsonData.products[0].associations.images
         for(let i = 0; i < imagesId.length; i++){
@@ -120,11 +116,12 @@ export function getProductImages (productId, callback) {
           imagesURL.push (item)
         }  
         callback(imagesURL)
-      }else{
-        callback([])
-      }
+      
     })
-    .catch( error => console.log('Fetch error ' + error) );
+    .catch( error => {
+      console.log('Fetch error ' + error) 
+      callback([])
+    });
 }
 
 export function getProductFeatures (productId, callback) {
@@ -140,7 +137,7 @@ export function getProductFeatures (productId, callback) {
       return response.json()
     })
     .then( async jsonData => { 
-      if(jsonData.length!=0){ 
+      
         let features = jsonData.products[0].associations.product_features
         let result = {}
         for(let i = 0; i < features.length; i++){
@@ -150,12 +147,12 @@ export function getProductFeatures (productId, callback) {
           !result[name] && (result[name] = [])
           result[name].push(value)
         }  
-        callback(result)
-      }else{
-        callback([])
-      }
+        callback(result)      
     })
-    .catch( error => console.log('Fetch error ' + error) );
+    .catch( error => {
+      console.log('Fetch error ' + error)
+      callback([]) 
+    });
 }
 
 function getFeatureName (featureId) {
