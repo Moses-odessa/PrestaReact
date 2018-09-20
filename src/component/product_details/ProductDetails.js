@@ -52,6 +52,7 @@ export default class ProductDetails extends React.Component {
       <ScrollView>
       <View style={styles.container}>
         <Text style={styles.titleText}>{productDetails.name}</Text> 
+        <Text style={styles.descriptionText}>{productDetails.description_short.replace(/<(.|\n)*?>/g, '')}</Text> 
         <Text style={styles.priceText}>{parseInt(productDetails.price)}</Text>
         <Button title='В корзину' onPress={()=>{alert('OK')}}/>
         <Description html={productDetails.description}/>      
@@ -72,6 +73,10 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 18,
   },
+  descriptionText: {
+    color: '#333',
+    fontSize: 12,
+},
   loadingContainer: {
       flex: 1,
       paddingTop: 22,
