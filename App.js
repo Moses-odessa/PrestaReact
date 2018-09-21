@@ -6,6 +6,7 @@ import Products from './src/component/products/Products'
 import ProductDetails from './src/component/product_details/ProductDetails'
 import ImagesGallery from './src/component/product_details/ImagesGallery'
 import ProductSpec from './src/component/product_details/ProductSpec'
+import CartButton from './src/component/cart/CartButton';
 
 const DetailsStack = createBottomTabNavigator(
   {
@@ -52,6 +53,7 @@ const RootStack = createStackNavigator(
       headerTitleStyle: {
         fontWeight: 'bold',
       },
+      headerRight: (<CartButton/>)
     },
   }
 );
