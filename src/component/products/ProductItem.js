@@ -20,8 +20,11 @@ export default class ProductsItem extends React.Component {
                 <Text style={styles.descriptionText}>
                     {item.description_short.replace(/<(.|\n)*?>/g, '')}
                 </Text>
-            </View>  
-            <Text style={styles.priceText}>{parseInt(item.price)}</Text>
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.priceText}>{parseInt(item.price)}</Text>
+                <Button title='В корзину' onPress={()=>{alert('OK')}}/>
+            </View>    
           </View>
           </TouchableOpacity>
         )

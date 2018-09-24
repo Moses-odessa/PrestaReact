@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default class CartButton extends React.Component {
     constructor(props) {
@@ -13,7 +13,12 @@ export default class CartButton extends React.Component {
 
     render() {    
         const {qty, total} = this.state    
+        const { navigation } = this.props;
+        
         return (
+          <TouchableOpacity onPress={() => {
+              navigation.navigate('ShoppingCart')              
+            } }>
           <View style={styles.container}>
             <Icon name='shopping-cart'  style={styles.icon}/>  
             <View style={styles.textContainer}>
@@ -21,6 +26,7 @@ export default class CartButton extends React.Component {
                 <Text style={styles.label}>{total + ' $'}</Text>
             </View>
           </View>  
+          </TouchableOpacity>
         )
     }
 }
