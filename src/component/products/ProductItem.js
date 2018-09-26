@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import ProductBuy from './ProductBuy';
+import ProductImage from './ProductImage';
+import ProductTitle from './ProductTitle';
 
 export default class ProductsItem extends React.Component {
     render() {
@@ -12,19 +15,9 @@ export default class ProductsItem extends React.Component {
             });
           }}>
           <View style={styles.item}>          
-            <Image style={styles.images}
-              source={item.image_source}
-            />
-            <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{item.name}</Text>
-                <Text style={styles.descriptionText}>
-                    {item.description_short.replace(/<(.|\n)*?>/g, '')}
-                </Text>
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.priceText}>{parseInt(item.price)}</Text>
-                <Button title='В корзину' onPress={()=>{alert('OK')}}/>
-            </View>    
+            <ProductImage source={item.image_source} />
+            <ProductTitle name={item.name} description_short={item.description_short}/>            
+            <ProductBuy item={item}/>    
           </View>
           </TouchableOpacity>
         )
@@ -38,26 +31,4 @@ const styles = StyleSheet.create({
       height: 100,
       flexDirection: 'row',
     },
-    textContainer: {
-        flex: 3,
-        padding: 2,
-        flexDirection: 'column'
-    },
-    images: {
-        width: 100, 
-        height: 100
-    },
-    titleText: {
-      color: '#333',
-      fontSize: 18,
-    },
-    descriptionText: {
-        color: '#333',
-        fontSize: 12,
-    },
-    priceText: {
-        color: '#f00',
-        fontSize: 24,
-    },
-
   })

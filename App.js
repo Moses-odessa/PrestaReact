@@ -46,8 +46,7 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Categories',
-    /* The header config from HomeScreen is now here */
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',
       },
@@ -55,13 +54,33 @@ const RootStack = createStackNavigator(
       headerTitleStyle: {
         fontWeight: 'bold',
       },
-      headerRight: (<CartButton navigation={navigation}/>)
-    }),
+      headerRight: (<CartButton />),      
+    },
   }
 );
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartProducts: {
+        items: {},
+        qty: 0, 
+        total: 0,
+        }
+    };         
+  }
+
+  updateCart = (cartProducts) => {
+    this.setState({ cartProducts: cartProducts })
+  }
+
   render() {
-    return <RootStack />;
+    const {cartProducts} = this.state
+    const screenProps = {      
+      cartProducts: cartProducts,
+      updateCart: this.updateCart,
+    }
+    return <RootStack screenProps = {screenProps}/>;
   }
 }

@@ -10,7 +10,8 @@ export default class ShoppingCart extends React.Component {
         super(props);
         this.state = {
           products: []
-        };         
+        };  
+        this.addItem = this.addItem.bind(this)       
       }
 
       render() {    
@@ -51,6 +52,17 @@ export default class ShoppingCart extends React.Component {
         </View>
         )
     }
+  
+
+
+    addItem = (item) => {
+        let {products} = this.state
+        products.push(item)
+        this.setState({
+            products: products,
+        }) 
+    } 
+
 }
 
 const styles = StyleSheet.create({

@@ -1,29 +1,24 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export default class CartButton extends React.Component {
+class CartButton extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-          qty: 0,
-          total: 0
-        };         
+        super(props);                 
       }
 
-    render() {    
-        const {qty, total} = this.state    
-        const { navigation } = this.props;
-        
+    render() {           
+        const cartProducts =this.props.navigation.getScreenProps().cartProducts
         return (
           <TouchableOpacity onPress={() => {
-              navigation.navigate('ShoppingCart')              
+            this.props.navigation.navigate('ShoppingCart')              
             } }>
           <View style={styles.container}>
             <Icon name='shopping-cart'  style={styles.icon}/>  
             <View style={styles.textContainer}>
-                <Text style={styles.label}>{qty + ' ед.'}</Text>
-                <Text style={styles.label}>{total + ' $'}</Text>
+                <Text style={styles.label}>{cartProducts.qty + ' ед.'}</Text>
+                <Text style={styles.label}>{cartProducts.total + ' $'}</Text>
             </View>
           </View>  
           </TouchableOpacity>
@@ -47,3 +42,5 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
   })
+
+  export default withNavigation(CartButton);

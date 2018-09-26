@@ -90,6 +90,8 @@ _getNodeView(node) {
               this.props.navigation.navigate('Products', {
                  categoryId: node.id,
                  categoryName: node.name,
+                 cartQty: this.props.navigation.getParam('cartQty',0),
+                 cartTotal: this.props.navigation.getParam('cartTotal',0)
               });
             }}>
            <Text style={styles.titleText} > 

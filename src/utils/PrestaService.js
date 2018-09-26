@@ -68,7 +68,7 @@ export function getProductsByCategoryId (categoryId, callback) {
 
 export function getProductDescription (productId, callback) {
   const url = BASE_URL +
-   'products?output_format=JSON&display=[id,name,price,description,description_short]&filter[id]=[' + productId + ']';
+   'products?output_format=JSON&display=[id,name,price,id_default_image,description,description_short]&filter[id]=[' + productId + ']';
    return fetch(url,
     { 
       method: 'get', 
@@ -78,8 +78,15 @@ export function getProductDescription (productId, callback) {
     .then( response => {
       return response.json()
     })
-    .then( jsonData => {           
-        callback(jsonData.products[0])      
+    .then( jsonData => {    
+      let product = jsonData.products[0]   
+      product.image_source = 
+            { 
+              uri: getImageURL(product.id, product.id_default_image, 'cart_default'),
+              headers: getHeaders('data:image/jpg'),
+              method: 'get'
+            }    
+      callback(product)      
     })
     .catch( error => {
       console.log('Fetch error ' + error) 
