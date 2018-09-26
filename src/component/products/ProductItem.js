@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     item: {
       flex: 1,  
       padding: 5,
-      height: 100,
       flexDirection: 'row',
     },
   })

@@ -1,47 +1,39 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import ProductTitle from '../products/ProductTitle';
+import ProductImage from '../products/ProductImage';
 
-export default class ShoppingCart extends React.Component {
+class ShoppingCart extends React.Component {
     static navigationOptions = {    
         title: 'Корзина'    
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          products: []
-        };  
-        this.addItem = this.addItem.bind(this)       
-      }
-
       render() {    
-        const {products} = this.state
-        if(!products)
+        const cartProducts =this.props.navigation.getScreenProps().cartProducts
+        if(Object.keys(cartProducts.items).length > 0)
           return this.renderResult()
         else 
           return this.renderEmpty()
       }
 
     renderResult() {
-        const { products } = this.props;
+        const cartProducts = this.props.navigation.getScreenProps().cartProducts
+        const items = cartProducts.items        
+        const ids = Object.keys(cartProducts.items)
         return (
-          <View style={styles.container}> 
-          {products.map ((item) => (
-            <View style={styles.item}>                    
-            <Image style={styles.images}
-              source={item.image_source}
-            />
-            <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{item.name}</Text>
-                <Text style={styles.descriptionText}>
-                    {item.description_short.replace(/<(.|\n)*?>/g, '')}
-                </Text>
-            </View>  
-            <Text style={styles.priceText}>{parseInt(item.price)}</Text>
-            <Text style={styles.priceText}>{(item.qty)}</Text>
-          </View>
-          ))}    
-          </View>      
+            <View style={styles.container}>
+            <FlatList
+              data={ids}          
+              renderItem={({item}) => (
+                <View style={styles.item}>          
+                    <ProductImage source={items[item].image_source} />
+                    <ProductTitle name={items[item].name} description_short={items[item].description_short}/>  
+                </View>
+              )}
+              keyExtractor={item => item}
+            />  
+            </View> 
         )
     }
 
@@ -52,30 +44,20 @@ export default class ShoppingCart extends React.Component {
         </View>
         )
     }
-  
-
-
-    addItem = (item) => {
-        let {products} = this.state
-        products.push(item)
-        this.setState({
-            products: products,
-        }) 
-    } 
 
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 22,
+        justifyContent: 'center',
+        alignItems: 'stretch'
+       },
     item: {
       flex: 1,  
       padding: 5,
-      height: 100,
       flexDirection: 'row',
-    },
-    textContainer: {
-        flex: 3,
-        padding: 2,
-        flexDirection: 'column'
     },
     loadingContainer: {
         flex: 1,
@@ -84,21 +66,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
      alignItems: 'center'
     },
-    images: {
-        width: 100, 
-        height: 100
-    },
     titleText: {
       color: '#333',
       fontSize: 18,
     },
-    descriptionText: {
-        color: '#333',
-        fontSize: 12,
-    },
-    priceText: {
-        color: '#f00',
-        fontSize: 24,
-    },
-
   })
+
+  export default withNavigation(ShoppingCart);
