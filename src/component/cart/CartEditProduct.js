@@ -29,12 +29,7 @@ class CartEditProduct extends React.Component {
                 />         
             <View style={styles.textContainer}>
                 <Text style={styles.priceText}>{parseFloat(cartProducts.items[productId].price)}</Text>
-            </View> 
-            <View style={styles.textContainer}>
-                <Text style={styles.priceText}>
-                    {parseFloat(cartProducts.items[productId].price)*parseInt(cartProducts.items[productId].qty)}
-                </Text>
-            </View>
+            </View>             
             <TouchableOpacity onPress={() => {           
                 const updateCart =this.props.navigation.getScreenProps().updateCart 
                 let cartProducts =this.props.navigation.getScreenProps().cartProducts 
