@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import ProductTitle from '../products/ProductTitle';
 import ProductImage from '../products/ProductImage';
+import CartEditProduct from './CartEditProduct';
 
 class ShoppingCart extends React.Component {
     static navigationOptions = {    
@@ -29,6 +30,7 @@ class ShoppingCart extends React.Component {
                 <View style={styles.item}>          
                     <ProductImage source={items[item].image_source} />
                     <ProductTitle name={items[item].name} description_short={items[item].description_short}/>  
+                    <CartEditProduct productId={item}/>
                 </View>
               )}
               keyExtractor={item => item}
