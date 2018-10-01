@@ -44,7 +44,9 @@ export default class MyNumberPicker extends Component {
 
 const styles = StyleSheet.create({  
   verticle: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textQty: {
     fontSize: 16,

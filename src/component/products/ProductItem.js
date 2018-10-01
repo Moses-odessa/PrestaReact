@@ -10,8 +10,7 @@ export default class ProductsItem extends React.Component {
         return (
           <TouchableOpacity onPress={() => {
             navigation.navigate('DetailsStack', {
-              productId: item.id,
-              productName: item.name,
+              product: item
             });
           }}>
           <View style={styles.item}>          

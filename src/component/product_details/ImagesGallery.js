@@ -20,8 +20,8 @@ export default class ImagesGallery extends React.Component {
   
   componentDidMount() {
     const { navigation } = this.props;
-    const productId = navigation.getParam('productId', 1);
-    getProductImages (productId, (jsonData=>{   
+    const product = navigation.getParam('product', 1);
+    getProductImages (product.id, (jsonData=>{   
         this.setState({
           loadingProductDetail: false,
           images: jsonData

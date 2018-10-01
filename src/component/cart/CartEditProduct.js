@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 36,
-        color: '#000'
+        color: '#fff'
     },
   })
 

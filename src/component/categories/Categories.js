@@ -20,7 +20,7 @@ export default class Categories extends React.Component {
   }
 
   componentDidMount() {
-    const rootCategoryId = 2;
+    const rootCategoryId = 0;
     getCategories ((jsonData=>{
         let categories = []
         let children = {}
