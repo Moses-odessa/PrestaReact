@@ -8,6 +8,7 @@ import ImagesGallery from './src/component/product_details/ImagesGallery'
 import ProductSpec from './src/component/product_details/ProductSpec'
 import CartButton from './src/component/cart/CartButton';
 import ShoppingCart from './src/component/cart/ShoppingCart';
+import Shops from './src/component/shops/Shops';
 
 const DetailsStack = createBottomTabNavigator(
   {
@@ -39,13 +40,14 @@ const DetailsStack = createBottomTabNavigator(
 
 const RootStack = createStackNavigator(
   {
+    Shops: Shops,
     Categories: Categories,
     Products: Products,
     ShoppingCart: ShoppingCart,
     DetailsStack: DetailsStack,
   },
   {
-    initialRouteName: 'Categories',
+    initialRouteName: 'Shops',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',

@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import {UIActivityIndicator} from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { getCategories } from './../../utils/PrestaService'
+import { getLangTitle } from '../../utils/LangService';
 
 export default class Categories extends React.Component {
   static navigationOptions = {    
-      title: 'Выберите категорию'    
+      title: getLangTitle('RU', 'Select Category')    
   }
 
   constructor(props) {

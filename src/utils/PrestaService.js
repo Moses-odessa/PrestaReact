@@ -140,12 +140,14 @@ export function getProductFeatures (productId, callback) {
       
         let features = jsonData.products[0].associations.product_features
         let result = {}
+        let featuresGroup = {}
         for(let i = 0; i < features.length; i++){
-          //console.log(features[i])
-          const name = await getFeatureName(features[i].id)
+          let groupId = features[i].id
+          !featuresGroup[groupId] && (featuresGroup[groupId] = await getFeatureName(groupId))          
           const value = await getFeatureValues(features[i].id_feature_value)
-          !result[name] && (result[name] = [])
-          result[name].push(value)
+          let groupName = featuresGroup[groupId]
+          !result[groupName] && (result[groupName] = [])
+          result[groupName].push(value)
         }  
         callback(result)      
     })
