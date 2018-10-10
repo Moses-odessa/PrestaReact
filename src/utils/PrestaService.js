@@ -18,7 +18,7 @@ function getImageURL (shop, productId, imageId, imageType) {
 export function getCategories (shop, callback) {
   //console.log(shop)
     let url = shop.baseUrl +
-     'categories/?output_format=JSON&display=[id,name,id_parent]&sort=[id_parent_ASC,id_ASC]';
+     'categories/?output_format=JSON&display=[id,name,id_parent]&filter[active]=[1]&sort=[id_parent_ASC,id_ASC]';
      return fetch(url,
       { 
         method: 'get', 
@@ -43,7 +43,7 @@ export function getCategories (shop, callback) {
 
 export function getProductsByCategoryId (shop, categoryId, callback) {
   let url = shop.baseUrl +
-   'products/?output_format=JSON&display=[id,name,price,id_default_image, description_short]&filter[id_category_default]=[' + categoryId + ']';
+   'products/?output_format=JSON&display=[id,name,price,id_default_image, description_short]&filter[active]=[1]&filter[id_category_default]=[' + categoryId + ']';
    return fetch(url,
     { 
       method: 'get', 

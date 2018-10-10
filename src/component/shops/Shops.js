@@ -29,6 +29,11 @@ export default class Shops extends React.Component {
             authKey: 'CM67C92UKYFPE2U7837YH4HGDBV78FBH',
             lang: {id:2, title:'UA'}
         },
+        'http://opt24.net/api/': {
+            baseUrl: 'http://opt24.net/api/',
+            authKey: 'AJWWFHINRQWDN5PZBDMEN5ME5ZSGLTI8',
+            lang: {id:2, title:'UA'}
+        },
     }
     let shops = {};
     try {
