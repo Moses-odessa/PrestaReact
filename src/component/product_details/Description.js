@@ -15,12 +15,11 @@ export default class Description extends React.Component {
       }
     
       componentDidMount() {
-        const { productId } = this.props;
-        getProductDescription (productId, (jsonData=>{
-            let productDescription = jsonData    
+        const { productId, shop } = this.props;
+        getProductDescription (shop, productId, (jsonData=>{   
             this.setState({
               loading: false,
-              productDescription: productDescription
+              productDescription: jsonData
             })      
         }))
       }

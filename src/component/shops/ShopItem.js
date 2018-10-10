@@ -1,18 +1,33 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import ShopIcon from './ShopIcon';
+import { getLangTitle } from '../../utils/LangService';
 
 class ShopItem extends React.Component {
     render() {
         const { item, navigation } = this.props;
+        //console.log(item)
         return (
-            <TouchableOpacity onPress={() => {
-                navigation.navigate('Categories', {
-                shop: item
-            });
+          <TouchableOpacity onPress={() => {
+            navigation.navigate('Categories', {
+            shop: item
+          });
           }}>
-          <View style={styles.item}>          
+          <View style={styles.container}>
+          <View style={styles.titleBox}>   
+            <ShopIcon shop={item}/>       
             <Text>{item.baseUrl}</Text>    
+          </View>
+          <View style={styles.buttonBox}>   
+            <Button title={getLangTitle('RU', 'Delete')} 
+              onPress={()=>{
+                    }}/> 
+            <View style={styles.horizontalSpace}></View>
+            <Button title={getLangTitle('RU', 'Edit')} 
+              onPress={()=>{
+                    }}/>
+          </View>
           </View>
           </TouchableOpacity>
         )
@@ -20,9 +35,24 @@ class ShopItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    item: {
+    titleBox: {
+      flex: 2,  
+      padding: 5,
+      justifyContent: 'space-between',
+      flexDirection: 'column',
+    },
+    horizontalSpace: {
+      height: 10
+    },
+    buttonBox: {
       flex: 1,  
       padding: 5,
+      justifyContent: 'space-between',
+      flexDirection: 'column',
+    },
+    container: {
+      flex: 1,  
+      padding: 10,
       flexDirection: 'row',
     },
   })

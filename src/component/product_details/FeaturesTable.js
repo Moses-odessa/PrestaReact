@@ -15,8 +15,8 @@ export default class FeaturesTable extends React.Component {
   }
 
   componentDidMount() {
-    const { productId } = this.props;
-    getProductFeatures (productId, (jsonData=>{
+    const { productId, shop } = this.props;
+    getProductFeatures (shop, productId, (jsonData=>{
         let productFeatures = jsonData 
         //console.log(productFeatures)      
         this.setState({
@@ -45,7 +45,7 @@ export default class FeaturesTable extends React.Component {
     renderResults() {
         const { productFeatures } = this.state;
         const keys = Object.keys(productFeatures)
-        console.log
+        const { shop } = this.props
         return (
           <View style={styles.container}>                           
             <Text style={styles.titleText}>СПЕЦИФИКАЦИИ</Text>

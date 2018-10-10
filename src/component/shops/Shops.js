@@ -27,26 +27,25 @@ export default class Shops extends React.Component {
         'http://homey.in.ua/api/': {
             baseUrl: 'http://homey.in.ua/api/',
             authKey: 'CM67C92UKYFPE2U7837YH4HGDBV78FBH',
-            lang: {id:1, title:'RU'}
+            lang: {id:2, title:'UA'}
         },
     }
     let shops = {};
     try {
       shops = await AsyncStorage.getItem('shops') || defaultShops;
+      this.setState({
+        loading: false,
+        shops: shops
+    })
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
       shops = {}
-    }  
-    this.setState({
-        loading: false,
-        shops: shops
-    })
+    } 
   }
   
   componentDidMount() {
-    this.loadShops()
-        
+    this.loadShops()        
   }
 
   render() {    

@@ -22,7 +22,8 @@ export default class Products extends React.Component {
   componentDidMount() {
     const { navigation } = this.props;
     const categoryId = navigation.getParam('categoryId', 1);
-    getProductsByCategoryId (categoryId, (jsonData=>{
+    const shop = navigation.getParam('shop', {});
+    getProductsByCategoryId (shop, categoryId, (jsonData=>{
         let products = jsonData       
         this.setState({
           loadingProducts: false,

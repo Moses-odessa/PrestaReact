@@ -22,7 +22,9 @@ export default class Categories extends React.Component {
 
   componentDidMount() {
     const rootCategoryId = 0;
-    getCategories ((jsonData=>{
+    const shop = this.props.navigation.getParam('shop', {});
+    //console.log(shop)
+    getCategories (shop, (jsonData=>{
         let categories = []
         let children = {}
         for(let i = 0; i < jsonData.length; i++){
@@ -83,7 +85,8 @@ export default class Categories extends React.Component {
 
 _getNodeView(node) {
   const {collapsed} = this.state
-  const icon = collapsed[node.id] ? 'chevron-right' : 'keyboard-arrow-down'
+  const icon = collapsed[node.id] ? 'chevron-right' : 'keyboard-arrow-down'  
+  const shop = this.props.navigation.getParam('shop', {});
   return (
       <View style={styles.item}>
           <Icon style={styles.icon} name={icon} onPress={() => this._toggleState.bind(this)(node.id)}/>
@@ -91,8 +94,9 @@ _getNodeView(node) {
               this.props.navigation.navigate('Products', {
                  categoryId: node.id,
                  categoryName: node.name,
-                 cartQty: this.props.navigation.getParam('cartQty',0),
-                 cartTotal: this.props.navigation.getParam('cartTotal',0)
+                 shop: shop,
+                 //cartQty: this.props.navigation.getParam('cartQty',0),
+                 //cartTotal: this.props.navigation.getParam('cartTotal',0)
               });
             }}>
            <Text style={styles.titleText} > 

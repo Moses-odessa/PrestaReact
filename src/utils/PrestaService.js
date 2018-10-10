@@ -1,34 +1,39 @@
 import {decode as atob, encode as btoa} from 'base-64'
 
-const BASE_URL = 'https://koreashop.com.ua/api/'//'http://homey.in.ua/api/'
-const AUTH_KEY = 'PYIXFN6JSMX7JC892BT8ZAFWPIFRU7W8'//'CM67C92UKYFPE2U7837YH4HGDBV78FBH'
-const AUTHORIZATION = 'Basic ' + btoa(AUTH_KEY + ':')
+function getAutorization(authKey){
+  return 'Basic ' + btoa(authKey + ':')
+}
 
-function getHeaders(contentType) {
+function getHeaders(shop, contentType) {
   return ({
-    'Authorization': AUTHORIZATION, 
+    'Authorization': getAutorization(shop.authKey), 
     'Content-Type': contentType
   })
 }
 
-function getImageURL (productId, imageId, imageType) {  
-  return (BASE_URL + "images/products/" + productId + "/" + imageId + "/" + imageType)
+function getImageURL (shop, productId, imageId, imageType) {  
+  return (shop.baseUrl + "images/products/" + productId + "/" + imageId + "/" + imageType)
 }
 
-export function getCategories (callback) {
-    let url = BASE_URL +
+export function getCategories (shop, callback) {
+  //console.log(shop)
+    let url = shop.baseUrl +
      'categories/?output_format=JSON&display=[id,name,id_parent]&sort=[id_parent_ASC,id_ASC]';
      return fetch(url,
       { 
         method: 'get', 
-        headers: getHeaders('application/x-www-form-urlencoded'), 
+        headers: getHeaders(shop,'application/x-www-form-urlencoded'), 
         body: ''
       })
       .then( response => {
         return response.json()
       })
-      .then( jsonData => {     
-          callback(jsonData.categories)        
+      .then( jsonData => {
+        let categories = jsonData.categories        
+        for(let i = 0; i < categories.length;i++) {
+          categories[i].name = getLangValue(shop.lang, categories[i].name)
+        }    
+          callback(categories)        
       })
   .catch( error => {
     console.log('Fetch error ' + error) 
@@ -36,13 +41,13 @@ export function getCategories (callback) {
   })  
 }
 
-export function getProductsByCategoryId (categoryId, callback) {
-  let url = BASE_URL +
+export function getProductsByCategoryId (shop, categoryId, callback) {
+  let url = shop.baseUrl +
    'products/?output_format=JSON&display=[id,name,price,id_default_image, description_short]&filter[id_category_default]=[' + categoryId + ']';
    return fetch(url,
     { 
       method: 'get', 
-      headers: getHeaders('application/x-www-form-urlencoded'), 
+      headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
       body: ''
     })
     .then( response => {
@@ -51,10 +56,13 @@ export function getProductsByCategoryId (categoryId, callback) {
     .then( jsonData => { 
         let products = jsonData.products
         for(let i = 0; i < products.length;i++) {
+          products[i].name = getLangValue(shop.lang, products[i].name)
+          products[i].description_short = getLangValue(shop.lang, products[i].description_short)
+
           products[i].image_source = 
             { 
-              uri: getImageURL(products[i].id, products[i].id_default_image, 'cart_default'),
-              headers: getHeaders('data:image/jpg'),
+              uri: getImageURL(shop, products[i].id, products[i].id_default_image, 'cart_default'),
+              headers: getHeaders(shop, 'data:image/jpg'),
               method: 'get'
             }     
         }  
@@ -66,20 +74,21 @@ export function getProductsByCategoryId (categoryId, callback) {
     })
 }
 
-export function getProductDescription (productId, callback) {
-  const url = BASE_URL +
+export function getProductDescription (shop, productId, callback) {
+  const url = shop.baseUrl +
    'products?output_format=JSON&display=[description]&filter[id]=[' + productId + ']';
    return fetch(url,
     { 
       method: 'get', 
-      headers: getHeaders('application/x-www-form-urlencoded'), 
+      headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
       body: ''
     })
     .then( response => {
       return response.json()
     })
-    .then( jsonData => {          
-      callback(jsonData.products[0].description)      
+    .then( jsonData => {   
+
+      callback(getLangValue(shop.lang, jsonData.products[0].description))      
     })
     .catch( error => {
       console.log('Fetch error ' + error) 
@@ -87,13 +96,13 @@ export function getProductDescription (productId, callback) {
     })
 }
 
-export function getProductImages (productId, callback) {
-  const url = BASE_URL +
+export function getProductImages (shop, productId, callback) {
+  const url = shop.baseUrl +
    'products?output_format=JSON&display=[images[id]]&filter[id]=[' + productId + ']';
    return fetch(url,
     { 
       method: 'get', 
-      headers: getHeaders('application/x-www-form-urlencoded'), 
+      headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
       body: ''
     })
     .then( response => {
@@ -106,12 +115,12 @@ export function getProductImages (productId, callback) {
           let item = {}
           item.id = imagesId[i].id
           item.large_source = {}
-          item.large_source.uri = getImageURL(productId, imagesId[i].id, 'large_default')
-          item.large_source.headers = getHeaders('data:image/jpg')
+          item.large_source.uri = getImageURL(shop, productId, imagesId[i].id, 'large_default')
+          item.large_source.headers = getHeaders(shop, 'data:image/jpg')
           item.large_source.method = 'get'
           item.preview_source = {}
-          item.preview_source.uri = getImageURL(productId, imagesId[i].id, 'medium_default')
-          item.preview_source.headers = getHeaders('data:image/jpg')
+          item.preview_source.uri = getImageURL(shop, productId, imagesId[i].id, 'medium_default')
+          item.preview_source.headers = getHeaders(shop, 'data:image/jpg')
           item.preview_source.method = 'get'
           imagesURL.push (item)
         }  
@@ -124,13 +133,13 @@ export function getProductImages (productId, callback) {
     });
 }
 
-export function getProductFeatures (productId, callback) {
-  const url = BASE_URL +
+export function getProductFeatures (shop, productId, callback) {
+  const url = shop.baseUrl +
    'products?output_format=JSON&display=[product_features[id,id_feature_value]]&filter[id]=[' + productId + ']';
    return fetch(url,
     { 
       method: 'get', 
-      headers: getHeaders('application/x-www-form-urlencoded'), 
+      headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
       body: ''
     })
     .then( response => {
@@ -143,8 +152,8 @@ export function getProductFeatures (productId, callback) {
         let featuresGroup = {}
         for(let i = 0; i < features.length; i++){
           let groupId = features[i].id
-          !featuresGroup[groupId] && (featuresGroup[groupId] = await getFeatureName(groupId))          
-          const value = await getFeatureValues(features[i].id_feature_value)
+          !featuresGroup[groupId] && (featuresGroup[groupId] = await getFeatureName(shop, groupId))          
+          const value = await getFeatureValues(shop, features[i].id_feature_value)
           let groupName = featuresGroup[groupId]
           !result[groupName] && (result[groupName] = [])
           result[groupName].push(value)
@@ -157,20 +166,20 @@ export function getProductFeatures (productId, callback) {
     });
 }
 
-function getFeatureName (featureId) {
-  let url = BASE_URL +
+function getFeatureName (shop, featureId) {
+  let url = shop.baseUrl +
   'product_features/' + featureId + '?output_format=JSON';
   return fetch(url,
    { 
      method: 'get', 
-     headers: getHeaders('application/x-www-form-urlencoded'), 
+     headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
      body: ''
    })
    .then( response => {
      return response.json()
    })
    .then( jsonData => {     
-       return jsonData.product_feature.name    
+       return getLangValue(shop.lang, jsonData.product_feature.name)    
    })
 .catch( error => {
   console.log('Fetch error ' + error) 
@@ -178,23 +187,44 @@ function getFeatureName (featureId) {
 });
 }
 
-function getFeatureValues (valuesId) {
-  let url = BASE_URL +
+function getFeatureValues (shop, valuesId) {
+  let url = shop.baseUrl +
   'product_feature_values/' + valuesId + '?output_format=JSON';
   return fetch(url,
    { 
      method: 'get', 
-     headers: getHeaders('application/x-www-form-urlencoded'), 
+     headers: getHeaders(shop, 'application/x-www-form-urlencoded'), 
      body: ''
    })
    .then( response => {
      return response.json()
    })
    .then( jsonData => {     
-       return jsonData.product_feature_value.value 
+       return getLangValue(shop.lang, jsonData.product_feature_value.value)
    })
-.catch( error => {
-  console.log('Fetch error ' + error) 
-  return ''
-});
+  .catch( error => {
+    console.log('Fetch error ' + error) 
+    return ''
+  });
+}
+
+function getLangValue(lang, langArr) {
+  let result = ''
+  if(!Array.isArray(langArr) ) {
+      result = langArr
+  } else {
+      for(let i = 0; i< langArr.length; i++){
+          (langArr[i].id == lang.id) && (result = langArr[i].value)
+      }
+  }
+  return result
+}
+
+export function getShopLogo(shop){
+  source = {}
+  source.uri = shop.baseUrl + 'images/general/header'
+  source.headers = getHeaders(shop,'data:image/jpg')
+  source.method = 'get'
+  //console.log(source)
+  return source
 }

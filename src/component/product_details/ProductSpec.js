@@ -13,13 +13,15 @@ export default class ProductSpec extends React.Component {
   render() { 
     const { navigation } = this.props;
     const product = navigation.getParam('product', {});
+    const shop = navigation.getParam('shop', {});
     return (
       <ScrollView>    
         <View style={styles.container}>        
           <ProductImage source={product.image_source}/>
-          <ProductTitle name={product.name} description_short={product.description_short}/>
+          <ProductTitle name={product.name} 
+            description_short={product.description_short}/>
           <ProductBuy item={product}/>      
-          <FeaturesTable productId={product.id} />   
+          <FeaturesTable productId={product.id} shop={shop}/>   
         </View>   
       </ScrollView>
     );
