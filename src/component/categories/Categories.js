@@ -4,11 +4,16 @@ import {UIActivityIndicator} from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { getCategories } from './../../utils/PrestaService'
 import { getLangTitle } from '../../utils/LangService';
+import CartButton from '../cart/CartButton';
 
 export default class Categories extends React.Component {
-  static navigationOptions = {    
-      title: getLangTitle('RU', 'Select Category')    
-  }
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: getLangTitle('RU', 'Select Category'),
+      headerRight: (<CartButton shop={navigation.getParam('shop', {})}/>),  
+    };
+  };
 
   constructor(props) {
     super(props);

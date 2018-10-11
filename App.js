@@ -6,9 +6,9 @@ import Products from './src/component/products/Products'
 import ProductDetails from './src/component/product_details/ProductDetails'
 import ImagesGallery from './src/component/product_details/ImagesGallery'
 import ProductSpec from './src/component/product_details/ProductSpec'
-import CartButton from './src/component/cart/CartButton';
 import ShoppingCart from './src/component/cart/ShoppingCart';
 import Shops from './src/component/shops/Shops';
+import CartButton from './src/component/cart/CartButton';
 
 const DetailsStack = createBottomTabNavigator(
   {
@@ -44,7 +44,13 @@ const RootStack = createStackNavigator(
     Categories: Categories,
     Products: Products,
     ShoppingCart: ShoppingCart,
-    DetailsStack: DetailsStack,
+    DetailsStack: {
+      screen: DetailsStack,
+      navigationOptions:({ navigation }) => ({
+        title: navigation.getParam('product', {name: ''}).name,
+        headerRight: (<CartButton shop={navigation.getParam('shop', {})}/>)
+      })
+    },
   },
   {
     initialRouteName: 'Shops',
@@ -55,8 +61,7 @@ const RootStack = createStackNavigator(
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-      },
-      headerRight: (<CartButton />),      
+      },          
     },
   }
 );
@@ -65,23 +70,21 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartProducts: {
-        items: {},
-        qty: 0, 
-        total: 0,
-        }
+      allCarts: {}
     };         
   }
 
-  updateCart = (cartProducts) => {
-    cartProducts.total = Math.round(cartProducts.total*100)/100
-    this.setState({ cartProducts: cartProducts })
+  updateCart = (shop, shopCart) => {
+    let {allCarts} = this.state
+    shopCart.total = Math.round(shopCart.total*100)/100
+    allCarts[shop.baseUrl] = shopCart    
+    this.setState({ allCarts: allCarts })
   }
 
   render() {
-    const {cartProducts} = this.state
+    const {allCarts} = this.state
     const screenProps = {      
-      cartProducts: cartProducts,
+      allCarts: allCarts,
       updateCart: this.updateCart,
     }
     return <RootStack screenProps = {screenProps}/>;

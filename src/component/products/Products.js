@@ -3,11 +3,13 @@ import { Text, FlatList, View, StyleSheet, } from 'react-native';
 import {UIActivityIndicator} from 'react-native-indicators';
 import { getProductsByCategoryId } from './../../utils/PrestaService'
 import ProductItem from '../products/ProductItem'
+import CartButton from '../cart/CartButton';
 
 export default class Products extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('categoryName', ''),
+      headerRight: (<CartButton shop={navigation.getParam('shop', {})}/>),  
     };
   };
 

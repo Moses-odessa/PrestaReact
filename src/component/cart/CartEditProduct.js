@@ -7,36 +7,37 @@ import MyNumberPicker from './number_picker/MyNumberPicker';
 class CartEditProduct extends React.Component {   
 
     render() {           
-        const cartProducts =this.props.navigation.getScreenProps().cartProducts
-        const {productId} = this.props
+        const allCarts =this.props.navigation.getScreenProps().allCarts
+        const {productId, shop} = this.props
+        const shopCart = allCarts[shop.baseUrl]
         return (          
           <View style={styles.container}>   
                 <MyNumberPicker
-                    value={cartProducts.items[productId].qty}
+                    value={shopCart.items[productId].qty}
                     min={1}
                     max={10}
                     stepsize={1}
                     onChangeText={(value) => {
                         const updateCart =this.props.navigation.getScreenProps().updateCart 
-                        let cartProducts =this.props.navigation.getScreenProps().cartProducts 
-                        let delta = value - cartProducts.items[productId].qty
-                        cartProducts.qty+= delta
-                        cartProducts.total+=Math.round(parseFloat(cartProducts.items[productId].price)*delta*100)/100
-                        cartProducts.items[productId].qty = value                                        
-                        updateCart(cartProducts)
+                        let shopCart =this.props.navigation.getScreenProps().allCarts[shop.baseUrl] 
+                        let delta = value - shopCart.items[productId].qty
+                        shopCart.qty+= delta
+                        shopCart.total+=parseFloat(cartProducts.items[productId].price)*delta
+                        shopCart.items[productId].qty = value                                        
+                        updateCart(shop, shopCart)
 
                     }}
                 />         
             <View style={styles.textContainer}>
-                <Text style={styles.priceText}>{parseFloat(cartProducts.items[productId].price)}</Text>
+                <Text style={styles.priceText}>{parseFloat(shopCart.items[productId].price)}</Text>
             </View>             
             <TouchableOpacity onPress={() => {           
                 const updateCart =this.props.navigation.getScreenProps().updateCart 
-                let cartProducts =this.props.navigation.getScreenProps().cartProducts 
-                cartProducts.qty-= cartProducts.items[productId].qty
-                cartProducts.total-=parseFloat(cartProducts.items[productId].price)*cartProducts.items[productId].qty
-                delete cartProducts.items[productId]                                        
-                updateCart(cartProducts)  
+                let shopCart =this.props.navigation.getScreenProps().allCarts[shop.baseUrl] 
+                shopCart.qty-= shopCart.items[productId].qty
+                shopCart.total-=parseFloat(shopCart.items[productId].price)*shopCart.items[productId].qty
+                delete shopCart.items[productId]                                        
+                updateCart(shop, shopCart)  
             }}>
                 <Icon name='delete'  style={styles.icon}/>  
             </TouchableOpacity>   

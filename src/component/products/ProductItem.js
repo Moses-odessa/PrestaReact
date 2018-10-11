@@ -19,7 +19,7 @@ export default class ProductsItem extends React.Component {
             <ProductImage source={item.image_source} />
             <ProductTitle name={item.name} 
               description_short={item.description_short}/>            
-            <ProductBuy item={item}/>    
+            <ProductBuy item={item} shop={shop}/>    
           </View>
           </TouchableOpacity>
         )

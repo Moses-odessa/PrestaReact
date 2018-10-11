@@ -4,24 +4,24 @@ import { withNavigation } from 'react-navigation';
 
 class ProductBuy extends React.Component {
     render() {
-        const { item } = this.props;
+        const { item, shop } = this.props;
         return (          
             <View style={styles.buyContainer}>
                 <Text style={styles.priceText}>{parseFloat(item.price)}</Text>
                 <Button title='В корзину' onPress={()=>{                      
                     const updateCart =this.props.navigation.getScreenProps().updateCart 
-                    let cartProducts =this.props.navigation.getScreenProps().cartProducts 
-                    cartProducts.qty++ 
-                    cartProducts.total+=parseFloat(item.price)
-                    if(!cartProducts.items[item.id]) {
+                    let shopCart =this.props.navigation.getScreenProps().allCarts[shop.baseUrl] 
+                    shopCart.qty++ 
+                    shopCart.total+=parseFloat(item.price)
+                    if(!shopCart.items[item.id]) {
                         let cartItem = item
                         cartItem.qty = 1
                         cartItem.price = parseFloat(item.price)
-                        cartProducts.items[item.id] = cartItem                             
+                        shopCart.items[item.id] = cartItem                             
                     } else {
-                        cartProducts.items[item.id].qty++
+                        shopCart.items[item.id].qty++
                     }                                         
-                    updateCart(cartProducts)
+                    updateCart(shop, shopCart)
                     }}/>
             </View>    
         )

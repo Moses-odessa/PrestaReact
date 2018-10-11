@@ -4,10 +4,11 @@ import ImageCarousel from 'react-native-image-carousel';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { UIActivityIndicator } from 'react-native-indicators';
 import { getProductImages } from '../../utils/PrestaService'
+import { getLangTitle } from '../../utils/LangService';
 
 export default class ImagesGallery extends React.Component {
   static navigationOptions = {    
-    title: 'Изображения'    
+    title: getLangTitle('RU', 'Images')    
   }
 
   constructor(props) {

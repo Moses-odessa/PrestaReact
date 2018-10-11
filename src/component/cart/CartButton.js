@@ -9,16 +9,24 @@ class CartButton extends React.Component {
       }
 
     render() {           
-        const cartProducts =this.props.navigation.getScreenProps().cartProducts
+        const allCarts = this.props.navigation.getScreenProps().allCarts
+        const {shop} = this.props        
+        if(!allCarts[shop.baseUrl]){
+            allCarts[shop.baseUrl]= {
+                items: {},
+                qty: 0, 
+                total: 0,}
+        }
+        const shopCart = allCarts[shop.baseUrl]
         return (
           <TouchableOpacity onPress={() => {
-            this.props.navigation.navigate('ShoppingCart')              
+            this.props.navigation.navigate('ShoppingCart', {shop: shop})              
             } }>
           <View style={styles.container}>
             <Icon name='shopping-cart'  style={styles.icon}/>  
             <View style={styles.textContainer}>
-                <Text style={styles.label}>{cartProducts.qty + ' ед.'}</Text>
-                <Text style={styles.label}>{cartProducts.total + ' $'}</Text>
+                <Text style={styles.label}>{shopCart.qty + ' ед.'}</Text>
+                <Text style={styles.label}>{shopCart.total + ' $'}</Text>
             </View>
           </View>  
           </TouchableOpacity>

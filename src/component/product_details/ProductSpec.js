@@ -4,10 +4,11 @@ import FeaturesTable from './FeaturesTable';
 import ProductTitle from '../products/ProductTitle';
 import ProductBuy from '../products/ProductBuy';
 import ProductImage from '../products/ProductImage';
+import { getLangTitle } from '../../utils/LangService';
 
 export default class ProductSpec extends React.Component {
   static navigationOptions = {    
-    title: 'Спецификации'    
+    title: getLangTitle('RU', 'Features')    
   }
 
   render() { 
@@ -20,7 +21,7 @@ export default class ProductSpec extends React.Component {
           <ProductImage source={product.image_source}/>
           <ProductTitle name={product.name} 
             description_short={product.description_short}/>
-          <ProductBuy item={product}/>      
+          <ProductBuy item={product} shop={shop}/>      
           <FeaturesTable productId={product.id} shop={shop}/>   
         </View>   
       </ScrollView>
