@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import ShopIcon from './ShopIcon';
-import { getLangTitle } from '../../utils/LangService';
+import CartButton from '../cart/CartButton'
+import EditRemoveButton from './EditRemoveButton';
 
 class ShopItem extends React.Component {
     render() {
@@ -20,13 +21,8 @@ class ShopItem extends React.Component {
             <Text>{item.baseUrl}</Text>    
           </View>
           <View style={styles.buttonBox}>   
-            <Button title={getLangTitle('RU', 'Delete')} 
-              onPress={()=>{
-                    }}/> 
-            <View style={styles.horizontalSpace}></View>
-            <Button title={getLangTitle('RU', 'Edit')} 
-              onPress={()=>{
-                    }}/>
+            <CartButton shop={item}/>
+            <EditRemoveButton shop={item}/>
           </View>
           </View>
           </TouchableOpacity>
@@ -36,18 +32,20 @@ class ShopItem extends React.Component {
 
 const styles = StyleSheet.create({
     titleBox: {
-      flex: 2,  
+      flex: 3,  
       padding: 5,
       justifyContent: 'space-between',
       flexDirection: 'column',
+      alignItems: 'center',
     },
     horizontalSpace: {
       height: 10
     },
     buttonBox: {
       flex: 1,  
-      padding: 5,
+      padding: 0,
       justifyContent: 'space-between',
+      alignItems: 'center',
       flexDirection: 'column',
     },
     container: {

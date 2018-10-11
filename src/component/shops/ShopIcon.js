@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     images: {
         flex: 1,
         alignSelf: 'stretch',
-        width: (win.width-30)*2/3,
+        width: (win.width-30)*3/4,
         height: 50,
     }
 });

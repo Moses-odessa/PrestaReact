@@ -43,11 +43,11 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 12,
-        color: '#fff'
+        color: '#5a5'
     },
     icon: {
         fontSize: 36,
-        color: '#fff'
+        color: '#5a5'
     },
   })
 
