@@ -7,15 +7,16 @@ class ProductBuy extends React.Component {
         const { item } = this.props;
         return (          
             <View style={styles.buyContainer}>
-                <Text style={styles.priceText}>{parseInt(item.price)}</Text>
+                <Text style={styles.priceText}>{parseFloat(item.price)}</Text>
                 <Button title='В корзину' onPress={()=>{                      
                     const updateCart =this.props.navigation.getScreenProps().updateCart 
                     let cartProducts =this.props.navigation.getScreenProps().cartProducts 
                     cartProducts.qty++ 
-                    cartProducts.total+=parseInt(item.price)
+                    cartProducts.total+=parseFloat(item.price)
                     if(!cartProducts.items[item.id]) {
                         let cartItem = item
                         cartItem.qty = 1
+                        cartItem.price = parseFloat(item.price)
                         cartProducts.items[item.id] = cartItem                             
                     } else {
                         cartProducts.items[item.id].qty++

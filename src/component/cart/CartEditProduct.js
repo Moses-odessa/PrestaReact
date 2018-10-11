@@ -21,7 +21,7 @@ class CartEditProduct extends React.Component {
                         let cartProducts =this.props.navigation.getScreenProps().cartProducts 
                         let delta = value - cartProducts.items[productId].qty
                         cartProducts.qty+= delta
-                        cartProducts.total+=parseInt(cartProducts.items[productId].price)*delta
+                        cartProducts.total+=Math.round(parseFloat(cartProducts.items[productId].price)*delta*100)/100
                         cartProducts.items[productId].qty = value                                        
                         updateCart(cartProducts)
 
@@ -34,7 +34,7 @@ class CartEditProduct extends React.Component {
                 const updateCart =this.props.navigation.getScreenProps().updateCart 
                 let cartProducts =this.props.navigation.getScreenProps().cartProducts 
                 cartProducts.qty-= cartProducts.items[productId].qty
-                cartProducts.total-=parseInt(cartProducts.items[productId].price)*cartProducts.items[productId].qty
+                cartProducts.total-=parseFloat(cartProducts.items[productId].price)*cartProducts.items[productId].qty
                 delete cartProducts.items[productId]                                        
                 updateCart(cartProducts)  
             }}>

@@ -74,6 +74,7 @@ export default class App extends React.Component {
   }
 
   updateCart = (cartProducts) => {
+    cartProducts.total = Math.round(cartProducts.total*100)/100
     this.setState({ cartProducts: cartProducts })
   }
 
